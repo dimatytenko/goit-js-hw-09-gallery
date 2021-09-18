@@ -1,12 +1,10 @@
-// import galleryItems from './app.js';
+import galleryItems from './app.js';
 
-// const galleryListEl = document.querySelector('ul.js-gallery');
-// const lightboxEl = document.querySelector('div.js-lightbox');
-// const lightboxImageEl = document.querySelector('img.lightbox__image');
-// const buttonCloseImageEl = document.querySelector('button[data-action="close-lightbox"]');
+const galleryListEl = document.querySelector('ul.js-gallery');
+const lightboxEl = document.querySelector('div.js-lightbox');
+const lightboxImageEl = document.querySelector('img.lightbox__image');
+const buttonCloseImageEl = document.querySelector('button[data-action="close-lightbox"]');
 let currentIndexImage = 0;
-
-// galleryListEl.innerHTML = creatImageCardsMarkup(galleryItems);
 
 galleryListEl.addEventListener('click', onOpenGalleryImageClick);
 buttonCloseImageEl.addEventListener('click', onCloseGallery);
