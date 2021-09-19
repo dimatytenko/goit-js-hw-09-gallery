@@ -1,5 +1,7 @@
+import galleryItems from './app.js';
+
 import refs from './refs';
-const { lightboxEl, lightboxImageEl } = refs;
+const { lightboxEl, lightboxImageEl, lightboxOverlay } = refs;
 
 export function creatImageCardsMarkup(galleryItems) {
   return galleryItems
@@ -23,7 +25,7 @@ export function creatImageCardsMarkup(galleryItems) {
     .join('');
 }
 
-// =============
+// ======================================
 
 export function onOpenGalleryImageClick(event) {
   event.preventDefault();
@@ -33,7 +35,7 @@ export function onOpenGalleryImageClick(event) {
   onOpenGallery();
 }
 
-export function onOpenGallery() {
+function onOpenGallery() {
   window.addEventListener('keydown', onKeyPress);
   lightboxEl.classList.add('is-open');
   lightboxImageEl.src = event.target.dataset.source;
@@ -48,19 +50,39 @@ export function onCloseGallery() {
 }
 
 export function onCloseGalleryLigthboxClick(evt) {
-  if (evt.target.nodeName === 'IMG') {
-    return;
+  if (evt.target === lightboxOverlay) {
+    onCloseGallery();
   }
-  onCloseGallery();
 }
 
+// =================================
+
 export function onKeyPress(event) {
-  console.log(event);
   if (event.code === 'Escape') {
     onCloseGallery();
   } else if (event.code === 'ArrowLeft') {
-    showPreviousImage(galleryItems, currentIndexImage);
+    showPreviousImage();
   } else if (event.code === 'ArrowRight') {
-    showNextImage(galleryItems, currentIndexImage);
+    showNextImage();
   }
+}
+
+export function showPreviousImage(array) {
+  const sourceImg = galleryItems.map(({ original }) => original);
+  let indexOfImg = sourceImg.indexOf(lightboxImageEl.src);
+
+  if (indexOfImg + 1 > sourceImg.length - 1) {
+    indexOfImg = -1;
+  }
+  lightboxImageEl.src = sourceImg[indexOfImg + 1];
+}
+
+export function showNextImage(array) {
+  const sourceImg = galleryItems.map(({ original }) => original);
+  let indexOfImg = sourceImg.indexOf(lightboxImageEl.src);
+
+  if (indexOfImg === 0) {
+    indexOfImg = sourceImg.length;
+  }
+  lightboxImageEl.src = sourceImg[indexOfImg - 1];
 }
